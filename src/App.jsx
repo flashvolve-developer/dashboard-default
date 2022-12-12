@@ -26,8 +26,7 @@ function App() {
     const [loading, setLoading] = useState();
     const [initialDate, setInitialDate] = useState('');
     const [finalDate, setFinalDate] = useState('');
-    // const [filter, setFilter] = useState('');
-    // const [counterFilter, setCounterFilter] = useState('');
+    const [counterFilter, setCounterFilter] = useState('');
 
     async function getAllCustomizationsCount() {
         const countCustomizations = (await getCustomizations(company, 1))
@@ -49,8 +48,7 @@ function App() {
     async function fetchCustomizations() {
         const newNumberOfPage = lastNumberOfPage + 1;
 
-        const response = (await getCustomizations(company, newNumberOfPage))
-            .items;
+        const response = (await getCustomizations(company, newNumberOfPage)).items;
 
         if (response && hasMore) {
             const newCustomizations = [...allCustomizations, ...response];
@@ -68,23 +66,24 @@ function App() {
 
             setLastNumberOfPage(newNumberOfPage);
         }
+    }
+
+    async function handleSetFilter(filter) {
+        setLoading(true);
+
+        setTimeout(async () => {
+            setAllCustomizations([]);
+            const customizations = (await getCustomizations(company, 1, filter)).items;
+            const customizationsCount = (await getCustomizations(company, 1, filter)).itemsTotal;
+            setAllCustomizations(customizations);
+            setAllCustomizationsCount(customizationsCount.toLocaleString('pt-BR'));
+            if (customizations.length === customizationsCount) {
+                setHasMore(false);
+            }
+        }, 1500);
 
         setLoading(false);
     }
-
-    // async function handleSetFilter(filter) {
-    //     //setFilter(filter);
-
-    //     //setLoading(true);
-
-    //     setTimeout(() => {
-    //         setAllCustomizations([]);
-    //     }, 1500);
-
-    //     // setCurrentCustomizationCount(currentCount.toLocaleString('pt-BR'));
-
-    //     fetchCustomizations();
-    // }
 
     async function searchBySelectedDate(e) {
         e.preventDefault();
@@ -220,7 +219,7 @@ function App() {
                                     }
                                 >
                                     {artNames.map((art, idx) => (
-                                        <option key={idx} value="stickers">
+                                        <option key={idx}>
                                             {art.personalizacao_Nome_da_arte}
                                         </option>
                                     ))}
