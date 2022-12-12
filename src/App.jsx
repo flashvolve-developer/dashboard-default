@@ -4,11 +4,13 @@ import getCustomizations from './services/getCustomizations';
 import getUsers from './services/getUsers';
 import getArtNames from './services/getArtNames';
 import CustomizationsCard from './components/customizationsCard';
-// import { company, logo } from './constants';
 
 import InfiniteScroll from 'react-infinite-scroller';
 
 function App() {
+    const path = window.location.pathname.replace("/", "").toLocaleUpperCase();
+    const [company, setCompany] = useState(path);
+    const [logo, setLogo] = useState('');
     const [allCustomizations, setAllCustomizations] = useState([]);
     const [allCustomizationsCount, setAllCustomizationsCount] =
         useState('carregando...');
@@ -26,20 +28,6 @@ function App() {
     const [finalDate, setFinalDate] = useState('');
     // const [filter, setFilter] = useState('');
     // const [counterFilter, setCounterFilter] = useState('');
-    const getLogo = async (company) => {
-        const URL = `https://api.flashvolve.io/api:GBD2ICmZ/dados_empresas?nome_empresa=${company}`;
-        const request = await fetch(URL, {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-          },
-        });
-    
-        const response = await request.json();
-    
-        return response;
-      };
-      
 
     async function getAllCustomizationsCount() {
         const countCustomizations = (await getCustomizations(company, 1))
@@ -152,6 +140,34 @@ function App() {
         }, 1500);
     }
 
+    async function getCompanyData() {
+        const path = window.location.pathname.replace("/", "");
+        path.toLocaleUpperCase();
+
+        const getLogo = async () => {
+            const URL = `https://api.flashvolve.io/api:GBD2ICmZ/dados_empresas?nome_empresa=${path}`;
+            const request = await fetch(URL, {
+                method: "GET",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+            });
+
+            const response = await request.json();
+
+            return response;
+        };
+
+        const getDataCompany = await getLogo(path);
+
+        setCompany(getDataCompany[0].nome_empresa);
+        setLogo(getDataCompany[0].logo);
+    }
+
+    useEffect(() => {
+        getCompanyData();
+    }, []);
+
     useEffect(() => {
         phoneNumber === '' &&
             setTimeout(() => {
@@ -160,17 +176,12 @@ function App() {
     }, [phoneNumber]);
 
     useEffect(() => {
-        const path = window.location.pathname.replace("/", "");
-
-        const company = getlogo(path)
         fetchArtNames();
         getAllCustomizationsCount();
         fetchCustomizations();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    console.log("###" + company)
-    console.log("###" + logo)
     return (
         <div className="App">
             <div className="headerPage">
