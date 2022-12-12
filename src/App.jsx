@@ -89,11 +89,25 @@ function App() {
     async function searchBySelectedDate(e) {
         e.preventDefault();
 
-        const initial = new Date(initialDate).getTime();
-        const final = new Date(finalDate).getTime();
+        function formatDate(date, time) {
+            const dateFormat = new Date();
+            const dateInput = date.split('-');
+            const timeH = time == 'end' ? 23 : 0;
+            const timeM = time == 'end' ? 59 : 0;
 
-        // console.log(initial);
-        // console.log(final);
+            dateFormat.setDate(dateInput[2]);
+            dateFormat.setMonth(Number(dateInput[1]) - 1);
+            dateFormat.setYear(dateInput[0]);
+            dateFormat.setHours(timeH);
+            dateFormat.setMinutes(timeM);
+            dateFormat.setSeconds(timeM);
+            dateFormat.setMilliseconds(timeM)
+
+            return dateFormat.getTime();
+        }
+
+        const initial = formatDate(initialDate, 'start');
+        const final = formatDate(finalDate, 'end');
 
         const countClientsByDate = (
             await getUsers(company, initial, final)
@@ -184,123 +198,136 @@ function App() {
 
     return (
         <div className="App">
-            <div className="headerPage">
-                <div className="headerPage-Logo">
-                    <img src={logo} alt="Logo" />
-                </div>
-                <div className="headerPage-Filters">
-                    <div className="headerPage-Subfooter">
-                        <select
-                            className="select-cards"
-                            onChange={async ({ target }) =>
-                                target && (await handleSetFilter(target.value))
-                            }
-                        >
-                            {artNames.map((art, idx) => (
-                                <option key={idx} value="stickers">
-                                    {art.personalizacao_Nome_da_arte}
-                                </option>
-                            ))}
-                        </select>
+            {!company ?
+                <div className='error404'>
+                    <div>
+                        <img src='https://uploads-ssl.webflow.com/62e9919439e430e21109eac5/62e9d2848543200340f16fea_logo_flashvolve%201.svg'/>
+                        <h3>NENHUMA EMPRESA ENCONTRADA</h3>
                     </div>
-                    <form
-                        className="Search"
-                        onSubmit={(event) => searchByPhoneNumber(event)}
-                    >
-                        <input
-                            className="input-search"
-                            placeholder="Buscar por número..."
-                            type="search"
-                            onChange={(event) =>
-                                setPhoneNumber(event.target.value)
-                            }
-                        />
-                        <button type="submit">
-                            <img
-                                src="https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"
-                                alt="pesquisar"
-                                width={20}
-                                height={20}
-                            />
-                        </button>
-                    </form>
-                    <form
-                        className="Search"
-                        onSubmit={(event) => searchBySelectedDate(event)}
-                    >
-                        <div>
-                            <span>De:&nbsp;</span>
-                            <input
-                                className="input-"
-                                type="date"
-                                onChange={(event) =>
-                                    setInitialDate(event.target.value)
-                                }
-                            />
-                        </div>
-                        <div>
-                            <span>Até:&nbsp;</span>
-                            <input
-                                className="input-"
-                                type="date"
-                                onChange={(event) =>
-                                    setFinalDate(event.target.value)
-                                }
-                            />
-                        </div>
-                        <button type="submit">
-                            <img
-                                src="https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"
-                                alt="pesquisar"
-                                width={20}
-                                height={20}
-                            />
-                        </button>
-                    </form>
                 </div>
-                <div className="headerPage-Info">
-                    <h1>Total de personalizações: {allCustomizationsCount}</h1>
-                    <p>
-                        {artNames.length === 1
-                            ? `Total de usuários: ${clientsCount} / Média de
+                :
+                <div className="App">
+                    <div className="headerPage">
+                        <div className="headerPage-Logo">
+                            <img src={logo} alt="Logo" />
+                        </div>
+                        <div className="headerPage-Filters">
+                            <div className="headerPage-Subfooter">
+                                <select
+                                    className="select-cards"
+                                    onChange={async ({ target }) =>
+                                        target && (await handleSetFilter(target.value))
+                                    }
+                                >
+                                    {artNames.map((art, idx) => (
+                                        <option key={idx} value="stickers">
+                                            {art.personalizacao_Nome_da_arte}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <form
+                                className="Search"
+                                onSubmit={(event) => searchByPhoneNumber(event)}
+                            >
+                                <input
+                                    className="input-search"
+                                    placeholder="Buscar por número..."
+                                    type="search"
+                                    onChange={(event) =>
+                                        setPhoneNumber(event.target.value)
+                                    }
+                                />
+                                <button type="submit">
+                                    <img
+                                        src="https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"
+                                        alt="pesquisar"
+                                        width={20}
+                                        height={20}
+                                    />
+                                </button>
+                            </form>
+                            <form
+                                className="Search"
+                                onSubmit={(event) => searchBySelectedDate(event)}
+                            >
+                                <div>
+                                    <span>De:&nbsp;</span>
+                                    <input
+                                        className="input-"
+                                        type="date"
+                                        onChange={(event) =>
+                                            setInitialDate(event.target.value)
+                                        }
+                                    />
+                                </div>
+                                <div>
+                                    <span>Até:&nbsp;</span>
+                                    <input
+                                        className="input-"
+                                        type="date"
+                                        onChange={(event) =>
+                                            setFinalDate(event.target.value)
+                                        }
+                                    />
+                                </div>
+                                <button type="submit">
+                                    <img
+                                        src="https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"
+                                        alt="pesquisar"
+                                        width={20}
+                                        height={20}
+                                    />
+                                </button>
+                            </form>
+                        </div>
+                        <div className="headerPage-Info">
+                            <h1>Total de personalizações: {allCustomizationsCount}</h1>
+                            <p>
+                                {
+                                    artNames.length === 1
+                                        ? `Total de usuários: ${clientsCount} / Média de
                                 personalizações por usuário: ${averageClientsCount}`
-                            : `Total de usuários: ${clientsCount} / Média de
+                                        : `Total de usuários: ${clientsCount} / Média de
                                 personalizações por usuário: ${averageClientsCount} /
-                                Total de artes: ${currentCustomizationCount}`}
-                    </p>
-                </div>
-            </div>
-            <div className="listaItens">
-                {loading === true ? (
-                    'Carregando...'
-                ) : phoneNumber ? (
-                    <div className="Cards">
-                        {allCustomizations.map((customization) => (
-                            <CustomizationsCard
-                                key={customization.id}
-                                customization={customization}
-                            />
-                        ))}
+                                Total de artes: ${currentCustomizationCount}`
+                                }
+                            </p>
+                        </div>
                     </div>
-                ) : (
-                    <InfiniteScroll
-                        className="Cards"
-                        // pageStart={1}
-                        loadMore={fetchCustomizations}
-                        hasMore={hasMore}
-                        threshold={350}
-                        initialLoad={false}
-                        style={{ width: '100%' }}
-                    >
-                        {allCustomizations.map((customization) => (
-                            <CustomizationsCard
-                                key={customization.id}
-                                customization={customization}
-                            />
-                        ))}
-                    </InfiniteScroll>
-                )}
-            </div>
+                    <div className="listaItens">
+                        {loading === true ? (
+                            'Carregando...'
+                        ) : phoneNumber ? (
+                            <div className="Cards">
+                                {allCustomizations.map((customization) => (
+                                    <CustomizationsCard
+                                        key={customization.id}
+                                        customization={customization}
+                                    />
+                                ))}
+                            </div>
+                        ) : (
+                            <InfiniteScroll
+                                className="Cards"
+                                // pageStart={1}
+                                loadMore={fetchCustomizations}
+                                hasMore={hasMore}
+                                threshold={350}
+                                initialLoad={false}
+                                style={{ width: '100%' }}
+                            >
+                                {allCustomizations.map((customization) => (
+                                    <CustomizationsCard
+                                        key={customization.id}
+                                        customization={customization}
+                                    />
+                                ))}
+                            </InfiniteScroll>
+                        )}
+                    </div>
+                </div>
+            }
         </div>
     );
 }
