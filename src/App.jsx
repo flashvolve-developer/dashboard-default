@@ -4,7 +4,7 @@ import getCustomizations from './services/getCustomizations';
 import getUsers from './services/getUsers';
 import getArtNames from './services/getArtNames';
 import CustomizationsCard from './components/customizationsCard';
-import { company, logo } from './constants';
+// import { company, logo } from './constants';
 
 import InfiniteScroll from 'react-infinite-scroller';
 
@@ -26,6 +26,20 @@ function App() {
     const [finalDate, setFinalDate] = useState('');
     // const [filter, setFilter] = useState('');
     // const [counterFilter, setCounterFilter] = useState('');
+    const getLogo = async (company) => {
+        const URL = `https://api.flashvolve.io/api:GBD2ICmZ/dados_empresas?nome_empresa=${company}`;
+        const request = await fetch(URL, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        });
+    
+        const response = await request.json();
+    
+        return response;
+      };
+      
 
     async function getAllCustomizationsCount() {
         const countCustomizations = (await getCustomizations(company, 1))
@@ -146,6 +160,9 @@ function App() {
     }, [phoneNumber]);
 
     useEffect(() => {
+        const path = window.location.pathname.replace("/", "");
+
+        const company = getlogo(path)
         fetchArtNames();
         getAllCustomizationsCount();
         fetchCustomizations();
