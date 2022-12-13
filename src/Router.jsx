@@ -58,7 +58,7 @@ export default function ParamsExample() {
 
         <ul>
           <li>
-            <Link to="/netflix">Netflix</Link>
+            <Link to="/:id">Netflix</Link>
           </li>
           <li>
             <Link to="/zillow-group">Zillow Group</Link>
