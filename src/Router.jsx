@@ -1,11 +1,11 @@
 // import './App.css';
 import React from 'react';
-import { Routes, Route} from 'react-router-dom';
+import { Route, Switch, useParams, BrowserRouter as Router} from 'react-router-dom';
 import App from './App';
 
-function Router() {
+function RoutesTest() {
   return (
-    <Routes>
+    <Router>
       <Route
         path="/"
         element={ <App /> }
@@ -14,8 +14,24 @@ function Router() {
         path="/:page"
         element={ <App /> }
       />
-    </Routes>
+      <Switch>
+          <Route path="/:id" children={<App />} />
+        </Switch>
+    </Router>
   );
 }
+      
 
-export default Router;
+export default RoutesTest;
+
+function Child() {
+  // We can use the `useParams` hook here to access
+  // the dynamic pieces of the URL.
+  let { id } = useParams();
+
+  return (
+    <div>
+      <h3>ID: {id}</h3>
+    </div>
+  );
+}
