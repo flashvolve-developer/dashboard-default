@@ -52,11 +52,6 @@ function App() {
 
         if (response && hasMore) {
             const newCustomizations = [...allCustomizations, ...response];
-            console.log('contador do array', newCustomizations);
-            console.log(
-                'contador de todas as pesonalizacoes',
-                allCustomizations
-            );
 
             if (newCustomizations.length === allCustomizationsCount) {
                 setHasMore(false);
@@ -74,12 +69,13 @@ function App() {
         setTimeout(async () => {
             setAllCustomizations([]);
             const customizations = (await getCustomizations(company, 1, filter)).items;
-            const customizationsCount = (await getCustomizations(company, 1, filter)).itemsTotal;
+            const countCustomizations = (await getCustomizations(company, 1, filter)).itemsTotal;
             setAllCustomizations(customizations);
-            setAllCustomizationsCount(customizationsCount.toLocaleString('pt-BR'));
-            if (customizations.length === customizationsCount) {
+            setAllCustomizationsCount(countCustomizations.toLocaleString('pt-BR'));
+            if (customizations.length === countCustomizations) {
                 setHasMore(false);
             }
+            setAverageClientsCount((countCustomizations / countClients).toFixed(2));
         }, 1500);
 
         setLoading(false);
@@ -284,12 +280,13 @@ function App() {
                             <h1>Total de personalizações: {allCustomizationsCount}</h1>
                             <p>
                                 {
-                                    artNames.length === 1
-                                        ? `Total de usuários: ${clientsCount} / Média de
+                                    // artNames.length === 1
+                                        // ?
+                                        `Total de usuários: ${clientsCount} / Média de
                                 personalizações por usuário: ${averageClientsCount}`
-                                        : `Total de usuários: ${clientsCount} / Média de
-                                personalizações por usuário: ${averageClientsCount} /
-                                Total de artes: ${currentCustomizationCount}`
+                                //         : `Total de usuários: ${clientsCount} / Média de
+                                // personalizações por usuário: ${averageClientsCount} /
+                                // Total de artes: ${currentCustomizationCount}`
                                 }
                             </p>
                         </div>
