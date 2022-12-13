@@ -11,15 +11,7 @@ function Router() {
         element={ <App /> }
       />
       <Route
-        path="cbmm"
-        element={ <App /> }
-      />
-      <Route
-        path="helbor"
-        element={ <App /> }
-      />
-      <Route
-        path="gpa"
+        path="/:page"
         element={ <App /> }
       />
     </Routes>
