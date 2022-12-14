@@ -17,18 +17,22 @@ body {
 .Cards {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 5px;
+  justify-content: space-evenly;
 }
 
 .Cards > div {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   width: calc(25% - 15px);
   max-height: 300px;
   min-width: 300px;
+  margin: 15px;
+}
+
+.DataVisible > button {
+  margin-right: 5px;
 }
 
 @media (max-width: 1215px) {
@@ -63,6 +67,10 @@ body {
 .Card:hover {
   transform: scale(1.02);
 }
+
+/* .DataVisible {
+  display: flex;
+} */
 
 @keyframes App-logo-spin {
   from {
@@ -237,4 +245,14 @@ body {
 
 .error404 > div > img {
   width: 100%;
+}
+
+/*---------------------------------*/
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 48
 }
