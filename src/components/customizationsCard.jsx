@@ -8,7 +8,7 @@ export default function customizationsCard({ customization }) {
       {
         customization.cloudinary.slice(customization.cloudinary.length - 3)
           === "mp4" ? (
-          <video alt={customization.whatsapp} className="Card">
+          <video alt={customization.whatsapp} className="Card" controls>
             <source src={customization.cloudinary} type="video/mp4">
             </source>
           </video>
