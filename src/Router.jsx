@@ -8,12 +8,12 @@ export default function Router() {
       <Route
         path="/"
         element={ <App /> }
-      />
-      <Route
-        path="/:page"
-        element={ <App /> }
-      />
-    </Routes>
+        />
+        <Route
+          path="/:page"
+          element={ <App /> }
+        />
+      </Routes>
   );
 }
 
