@@ -28,11 +28,18 @@ body {
   width: calc(25% - 15px);
   max-height: 300px;
   min-width: 300px;
-  margin: 15px;
+  display: block;
+  margin-bottom: 50px;
 }
 
 .DataVisible > button {
   margin-right: 5px;
+  border-radius: 5px;
+}
+
+.DataVisible > button:hover {
+  margin-right: 5px;
+  cursor: pointer;
 }
 
 @media (max-width: 1215px) {
@@ -211,8 +218,9 @@ body {
 /*---------------------------------*/
 
 .select-cards {
+  width: 100%;
   font-weight: 700;
-  text-align: center;
+  text-align: left;
   margin-top: 2em;
   margin-bottom: 2em;
   height: 30px;

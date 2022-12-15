@@ -8,24 +8,26 @@ import CustomizationsCard from './components/customizationsCard';
 import InfiniteScroll from 'react-infinite-scroller';
 
 function App() {
-    const path = window.location.pathname.replace("/", "").toLocaleUpperCase();
+    const [path] = useState(window.location.pathname.replace("/", "").toLocaleUpperCase());
     const [company, setCompany] = useState(path);
     const [logo, setLogo] = useState('');
     const [allCustomizations, setAllCustomizations] = useState([]);
     const [allCustomizationsCount, setAllCustomizationsCount] =
         useState('carregando...');
+    //
     const [currentCustomizationCount, setCurrentCustomizationCount] =
         useState('carregando...');
     const [clientsCount, setClientsCount] = useState('carregando...');
     const [averageClientsCount, setAverageClientsCount] =
         useState('carregando...');
-    const [artNames, setArtNames] = useState(['carregando...']);
+    const [artNames, setArtNames] = useState([]);
     const [lastNumberOfPage, setLastNumberOfPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
     const [phoneNumber, setPhoneNumber] = useState('');
     const [loading, setLoading] = useState();
     const [initialDate, setInitialDate] = useState('');
     const [finalDate, setFinalDate] = useState('');
+    //
     const [counterFilter, setCounterFilter] = useState('');
 
     async function getAllCustomizationsCount() {
@@ -132,7 +134,7 @@ function App() {
             setHasMore(false);
         }
 
-        setCurrentCustomizationCount(currentCount);
+        // setCurrentCustomizationCount(currentCount);
 
         setLastNumberOfPage(0);
     }
@@ -187,7 +189,9 @@ function App() {
     useEffect(() => {
         fetchArtNames();
         getAllCustomizationsCount();
-        fetchCustomizations();
+        setTimeout(() => {
+            fetchCustomizations();
+        }, 2000);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
