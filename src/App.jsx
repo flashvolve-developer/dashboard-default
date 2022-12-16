@@ -106,13 +106,16 @@ function App() {
         const initial = formatDate(initialDate, 'start');
         const final = formatDate(finalDate, 'end');
 
+        console.log(initial);
+        console.log(final);
+
         const countClientsByDate = (
             await getUsers(company, initial, final)
         ).quantidade.toLocaleString('pt-BR');
         setClientsCount(countClientsByDate);
 
         const countCustomizationsByDate = (
-            await getCustomizations(company, 1, initial, final)
+            await getCustomizations(company, 1, 0, initial, final)
         ).itemsTotal;
 
         setAllCustomizationsCount(countCustomizationsByDate);
@@ -121,7 +124,7 @@ function App() {
             (countCustomizationsByDate / countClientsByDate).toFixed(2)
         );
 
-        const response = await getCustomizations(company, 1, initial, final);
+        const response = await getCustomizations(company, 1, 0, initial, final);
         const customizations = response.items;
         const currentCount = response.itemsTotal;
 
