@@ -15,7 +15,6 @@ export default async function getCustomizations(
     });
 
     const response = await request.json();
-    console.log(URL);
 
     return response;
 }
