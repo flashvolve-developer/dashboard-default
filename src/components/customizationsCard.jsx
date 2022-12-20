@@ -1,5 +1,5 @@
 import "../App.css";
-
+import {FiDownload} from 'react-icons/fi'
 import React, { useState, useContext } from "react";
 import AppContext from '../context/AppContext';
 
@@ -85,7 +85,7 @@ export default function customizationsCard({ customization }) {
         ) : (
           <div>
             <div className="DataVisible">
-              <button
+              <button className='button'
                 onClick={() => setHidden(!hidden)}
               >
                 {
@@ -120,15 +120,14 @@ export default function customizationsCard({ customization }) {
                 </label>
               </div>
               <div className="btn-download">
-                {/* <button id="btn-image-download">-V-</button> */}
                 <label htmlFor="btn-image-download">
-                  <button
+                  <div className="button"
                     id="url-btn"
                     download
                     onClick={(e) => download(e, customization.cloudinary)}
                   >
-                    download
-                  </button>
+                    <FiDownload/>
+                  </div>
                 </label>
               </div>
             </div>

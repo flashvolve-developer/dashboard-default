@@ -32,15 +32,32 @@ body {
   margin-bottom: 80px;
 }
 
-.DataVisible > button {
+.DataVisible {
+  text-transform: uppercase;
+  font-size: small;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+}
+
+.DataVisible > .button {
   margin-right: 5px;
   border-radius: 5px;
   border: none;
 }
 
-.DataVisible > button:hover {
+.DataVisible > .button:hover {
   margin-right: 5px;
   cursor: pointer;
+}
+
+.btn-download #url-btn{
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.btn-download #url-btn:hover{
+  color: #0af529;
 }
 
 @media (max-width: 1215px) {
@@ -76,8 +93,7 @@ body {
 
 .button-download-box {
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-start;
+  align-items: center;
   gap: 35px;
 }
 
@@ -85,16 +101,19 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 30px;
+  font-size: larger;
+}
+
+.btn-download label {
+  margin: 8px;
+    display: flex;
+    gap: 8px;
 }
 
 .btn-download button {
   width: 35px;
 }
-
-/* .DataVisible {
-  display: flex;
-} */
-
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

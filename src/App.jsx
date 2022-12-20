@@ -8,6 +8,11 @@ import CustomizationsCard from './components/customizationsCard';
 import InfiniteScroll from 'react-infinite-scroller';
 
 function App() {
+    window.onload = function(){
+        document.oncontextmenu = ()=>{
+            return false
+        }
+    }
     const [path] = useState(window.location.pathname.replace("/", "").toLocaleUpperCase());
     const [company, setCompany] = useState(path);
     const [logo, setLogo] = useState('');
@@ -209,7 +214,7 @@ function App() {
                 <div className="App">
                     <div className="headerPage">
                         <div className="headerPage-Logo">
-                            <img src={logo} alt="Logo" />
+                            {/* <img src={logo} alt="Logo" /> */}
                         </div>
                         <div className="headerPage-Filters">
                             <div className="headerPage-Subfooter">
