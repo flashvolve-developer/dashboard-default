@@ -9,8 +9,7 @@ function AppProvider({ children }) {
   // const [name, setName] = useState('');
   // const [role, setRole] = useState('');
   // const [token, setToken] = useState('');
-  const [orders, setOrders] = useState([]);
-  const [quantity, setQuantity] = useState([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [selectedCards, setSelectedCards] = useState([]);
 
   const context = {
     // email,
@@ -25,10 +24,8 @@ function AppProvider({ children }) {
     // setRole,
     // token,
     // setToken,
-    orders,
-    setOrders,
-    quantity,
-    setQuantity,
+    selectedCards,
+    setSelectedCards,
   };
 
   return (

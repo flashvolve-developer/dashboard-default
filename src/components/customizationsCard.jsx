@@ -1,9 +1,33 @@
 import "../App.css";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import AppContext from '../context/AppContext';
 
 export default function customizationsCard({ customization }) {
   const [hidden, setHidden] = useState(true);
+  const { selectedCards, setSelectedCards } = useContext(AppContext);
+
+  const download = (e, url) => {
+    e.preventDefault();
+
+    fetch(url, {
+      method: "GET",
+      headers: {}
+    })
+      .then(response => {
+        response.arrayBuffer().then(function (buffer) {
+          const Url = window.URL.createObjectURL(new Blob([buffer]));
+          const link = document.createElement("a");
+          link.href = Url;
+          link.setAttribute("download", "image.png");
+          document.body.appendChild(link);
+          link.click();
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <>
@@ -33,6 +57,30 @@ export default function customizationsCard({ customization }) {
               <source src={customization.cloudinary} type="video/mp4">
               </source>
             </video>
+            <div className="button-download-box">
+              <div className="btn-download">
+                <label htmlFor={customization.id}>
+                  <input
+                    type="checkbox"
+                    id={customization.id}
+                    onChange={setSelectedCards(customization.id)}
+                  />
+                  selecionar
+                </label>
+              </div>
+              <div className="btn-download">
+                {/* <button id="btn-image-download">-V-</button> */}
+                <label htmlFor="btn-image-download">
+                  <button
+                    id="url-btn"
+                    download
+                    onClick={(e) => download(e, customization.cloudinary)}
+                  >
+                    download
+                  </button>
+                </label>
+              </div>
+            </div>
           </div>
         ) : (
           <div>
@@ -57,9 +105,33 @@ export default function customizationsCard({ customization }) {
             <img
               className="Card"
               data-testid={`customization__img-card-${customization.id}`}
-              src={customization.cloudinary || customization.figurinha}
+              src={customization.cloudinary}
               alt={customization.whatsapp}
             />
+            <div className="button-download-box">
+              <div className="btn-download">
+                <label htmlFor={customization.id}>
+                  <input
+                    type="checkbox"
+                    id={customization.id}
+                    onChange={setSelectedCards(customization.id)}
+                  />
+                  selecionar
+                </label>
+              </div>
+              <div className="btn-download">
+                {/* <button id="btn-image-download">-V-</button> */}
+                <label htmlFor="btn-image-download">
+                  <button
+                    id="url-btn"
+                    download
+                    onClick={(e) => download(e, customization.cloudinary)}
+                  >
+                    download
+                  </button>
+                </label>
+              </div>
+            </div>
           </div>
         )
       }

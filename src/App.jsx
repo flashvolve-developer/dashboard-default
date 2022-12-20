@@ -12,14 +12,11 @@ function App() {
     const [company, setCompany] = useState(path);
     const [logo, setLogo] = useState('');
     const [allCustomizations, setAllCustomizations] = useState([]);
-    const [allCustomizationsCount, setAllCustomizationsCount] =
-        useState('carregando...');
+    const [allCustomizationsCount, setAllCustomizationsCount] = useState('carregando...');
     //
-    const [currentCustomizationCount, setCurrentCustomizationCount] =
-        useState('carregando...');
+    const [currentCustomizationCount, setCurrentCustomizationCount] = useState('carregando...');
     const [clientsCount, setClientsCount] = useState('carregando...');
-    const [averageClientsCount, setAverageClientsCount] =
-        useState('carregando...');
+    const [averageClientsCount, setAverageClientsCount] = useState('carregando...');
     const [artNames, setArtNames] = useState([]);
     const [lastNumberOfPage, setLastNumberOfPage] = useState(0);
     const [hasMore, setHasMore] = useState(true);
