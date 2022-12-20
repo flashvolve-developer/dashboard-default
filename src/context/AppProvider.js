@@ -9,7 +9,7 @@ function AppProvider({ children }) {
   // const [name, setName] = useState('');
   // const [role, setRole] = useState('');
   // const [token, setToken] = useState('');
-  const [selectedCards, setSelectedCards] = useState([]);
+  const [selectedCards, setSelectedCards] = useState([0]);
 
   const context = {
     // email,

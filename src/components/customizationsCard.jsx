@@ -1,5 +1,5 @@
 import "../App.css";
-import {FiDownload} from 'react-icons/fi'
+import { FiDownload } from 'react-icons/fi'
 import React, { useState, useContext } from "react";
 import AppContext from '../context/AppContext';
 
@@ -63,7 +63,7 @@ export default function customizationsCard({ customization }) {
                   <input
                     type="checkbox"
                     id={customization.id}
-                    onChange={setSelectedCards(customization.id)}
+                    onChange={() => setSelectedCards(selectedCards.push(customization.id))}
                   />
                   selecionar
                 </label>
@@ -114,7 +114,7 @@ export default function customizationsCard({ customization }) {
                   <input
                     type="checkbox"
                     id={customization.id}
-                    onChange={setSelectedCards(customization.id)}
+                    onChange={() => setSelectedCards(selectedCards.push(customization.id))}
                   />
                   selecionar
                 </label>

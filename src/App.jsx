@@ -1,20 +1,25 @@
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import getCustomizations from './services/getCustomizations';
 import getUsers from './services/getUsers';
 import getArtNames from './services/getArtNames';
 import CustomizationsCard from './components/customizationsCard';
 
 import InfiniteScroll from 'react-infinite-scroller';
+import AppContext from './context/AppContext';
 
 function App() {
-    window.onload = function(){
-        document.oncontextmenu = ()=>{
+    window.onload = function () {
+        document.oncontextmenu = () => {
             return false
         }
     }
+
+    const { selectedCards, setSelectedCards } = useContext(AppContext);
+
     const [path] = useState(window.location.pathname.replace("/", "").toLocaleUpperCase());
     const [company, setCompany] = useState(path);
+    //
     const [logo, setLogo] = useState('');
     const [allCustomizations, setAllCustomizations] = useState([]);
     const [allCustomizationsCount, setAllCustomizationsCount] = useState('carregando...');
@@ -177,7 +182,7 @@ function App() {
         const getDataCompany = await getLogo(path);
 
         setCompany(getDataCompany[0].nome_empresa);
-        setLogo(getDataCompany[0].logo);
+        // setLogo(getDataCompany[0].logo);
     }
 
     useEffect(() => {
@@ -206,7 +211,7 @@ function App() {
             {!company ?
                 <div className='error404'>
                     <div>
-                        <img src='https://uploads-ssl.webflow.com/62e9919439e430e21109eac5/62e9d2848543200340f16fea_logo_flashvolve%201.svg'/>
+                        <img src='https://uploads-ssl.webflow.com/62e9919439e430e21109eac5/62e9d2848543200340f16fea_logo_flashvolve%201.svg' />
                         <h3>NENHUMA EMPRESA ENCONTRADA</h3>
                     </div>
                 </div>
@@ -230,6 +235,11 @@ function App() {
                                         </option>
                                     ))}
                                 </select>
+                                <button
+                                    onClick={console.log(selectedCards)}
+                                >
+                                    FAZER DOWNLOADS SELECIONADOS
+                                </button>
                             </div>
                             <form
                                 className="Search"
@@ -291,12 +301,12 @@ function App() {
                             <p>
                                 {
                                     // artNames.length === 1
-                                        // ?
-                                        `Total de usuários: ${clientsCount} / Média de
+                                    // ?
+                                    `Total de usuários: ${clientsCount} / Média de
                                 personalizações por usuário: ${averageClientsCount}`
-                                //         : `Total de usuários: ${clientsCount} / Média de
-                                // personalizações por usuário: ${averageClientsCount} /
-                                // Total de artes: ${currentCustomizationCount}`
+                                    //         : `Total de usuários: ${clientsCount} / Média de
+                                    // personalizações por usuário: ${averageClientsCount} /
+                                    // Total de artes: ${currentCustomizationCount}`
                                 }
                             </p>
                         </div>
