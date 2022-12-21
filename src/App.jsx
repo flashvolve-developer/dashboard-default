@@ -251,9 +251,9 @@ function App() {
                 :
                 <div className="App">
                     <div className="headerPage">
-                        <div className="headerPage-Logo">
-                            {/* <img src={logo} alt="Logo" /> */}
-                        </div>
+                        {/* <div className="headerPage-Logo">
+                            <img src={logo} alt="Logo" />
+                        </div> */}
                         <div className="headerPage-Filters">
                             <div className="headerPage-Subfooter">
                                 <select
