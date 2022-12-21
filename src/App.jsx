@@ -85,7 +85,7 @@ function App() {
             if (customizations.length === countCustomizations) {
                 setHasMore(false);
             }
-            setAverageClientsCount((countCustomizations / countClients).toFixed(2));
+            setAverageClientsCount((countCustomizations / clientsCount).toFixed(2));
         }, 1500);
 
         setLoading(false);
