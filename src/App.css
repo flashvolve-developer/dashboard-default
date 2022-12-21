@@ -299,3 +299,85 @@ body {
   'GRAD' 0,
   'opsz' 48
 }
+
+/* input-box */
+.input-box-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input-box-bottom {
+  display: flex;
+  gap: 20px;
+  /* justify-content: center; */
+}
+
+.input-box {
+  padding-top: 40px;
+}
+
+.search-box #input-search {
+    padding-left: 10px;
+  min-width: 250px;
+  height: 36px;
+  border-radius: 5px;
+  outline: none;
+  border: 1px solid #999999;
+}
+
+.select-dropbox {
+  min-width: 268px;
+  height: 36px;
+  border-radius: 5px;
+  border: 1px solid #999999;
+}
+
+.select-dropbox {
+    padding-left: 10px;
+}
+
+.date-filter-box input {
+  height: 36px;
+  border-radius: 5px;
+  border: 1px solid #999999;
+  outline: none;
+}
+
+.input-box-bottom select {
+  background: #444444;
+  border: 1px solid #c9c9c9;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.input-box-bottom select option {
+  background: #eceaea;
+  border: 1px solid #c9c9c9;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.input-box-bottom button {
+    min-width: 286px;
+    font-weight: 700;
+  background: #ebebeb;
+  border: 1px solid #c9c9c9;
+  border-radius: 5px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.input-box-bottom button:hover {
+  cursor: pointer;
+}
+
+.text-box {
+    padding: 2.5em 0;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  /* justify-content: center; */
+}
+
+.text-box h2 {
+    font-weight: 700;
+    font-size: 36px;
+}
+/* input-box */

@@ -330,6 +330,7 @@ function App() {
                                 </button>
                             </form>
                         </div>
+          
                         <div className="headerPage-Info">
                             <h1>Total de personalizações: {allCustomizationsCount}</h1>
                             <p>
@@ -344,6 +345,16 @@ function App() {
                                 }
                             </p>
                         </div>
+                        <div class="input-box-bottom">
+            <select name="" id="" class="select-dropbox">
+              <option value="">ORGANIZAR POR</option>
+              <option value="">opção 1</option>
+              <option value="">opção 2</option>
+              <option value="">opção 3</option>
+              <option value="">opção 4</option>
+            </select>
+            <button>FAZER DOWNLOADS SELECIONADOS</button>
+          </div>
                     </div>
                     <div className="listaItens">
                         {loading === true ? (
