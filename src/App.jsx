@@ -189,7 +189,7 @@ function App() {
     async function downloadSelectedCards(e) {
         e.preventDefault();
 
-        const download = (url) => {
+        const download = (id, url) => {
             fetch(url, {
                 method: "GET",
                 headers: {}
@@ -199,7 +199,7 @@ function App() {
                         const Url = window.URL.createObjectURL(new Blob([buffer]));
                         const link = document.createElement("a");
                         link.href = Url;
-                        link.setAttribute("download", "image.png");
+                        link.setAttribute("download", (`image${id}.png`));
                         document.body.appendChild(link);
                         link.click();
                     });
@@ -211,11 +211,10 @@ function App() {
 
 
         const customizations = await getCustoByIds(selectedCards);
-        console.log(customizations);
-        customizations.forEach(element => {
-            download(element.cloudinary)
-        });
 
+        customizations.forEach(element => {
+            download(element.id, element.cloudinary)
+        });
     }
 
     useEffect(() => {
@@ -338,8 +337,8 @@ function App() {
                                 }
                             </p>
                         </div>
-                        <div class="input-box-bottom">
-                            <select name="" id="" class="select-dropbox">
+                        <div className="input-box-bottom">
+                            <select name="" id="" className="select-dropbox">
                                 <option value="">ORGANIZAR POR</option>
                                 <option value="">opção 1</option>
                                 <option value="">opção 2</option>

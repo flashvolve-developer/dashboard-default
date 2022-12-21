@@ -8,7 +8,7 @@ export default function customizationsCard({ customization }) {
   const { selectedCards, setSelectedCards } = useContext(AppContext);
 
   function toggleSelectedCard(id) {
-    console.log(selectedCards);
+    // console.log(selectedCards);
 
     if (selectedCards.includes(id)) {
       const filtered = selectedCards.filter((value) => value !== id);
