@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import getCustomizations from './services/getCustomizations';
 import getUsers from './services/getUsers';
 import getArtNames from './services/getArtNames';
+import getCustoByIds from './services/getCustoByIds';
 import CustomizationsCard from './components/customizationsCard';
 
 import InfiniteScroll from 'react-infinite-scroller';
@@ -185,6 +186,38 @@ function App() {
         // setLogo(getDataCompany[0].logo);
     }
 
+    async function downloadSelectedCards(e) {
+        e.preventDefault();
+
+        const download = (url) => {
+            fetch(url, {
+                method: "GET",
+                headers: {}
+            })
+                .then(response => {
+                    response.arrayBuffer().then(function (buffer) {
+                        const Url = window.URL.createObjectURL(new Blob([buffer]));
+                        const link = document.createElement("a");
+                        link.href = Url;
+                        link.setAttribute("download", "image.png");
+                        document.body.appendChild(link);
+                        link.click();
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        };
+
+
+        const customizations = await getCustoByIds(selectedCards);
+        console.log(customizations);
+        customizations.forEach(element => {
+            download(element.cloudinary)
+        });
+
+    }
+
     useEffect(() => {
         getCompanyData();
     }, []);
@@ -236,7 +269,8 @@ function App() {
                                     ))}
                                 </select>
                                 <button
-                                    onClick={console.log(selectedCards)}
+                                    disabled={(selectedCards.length === 0)}
+                                    onClick={(event) => downloadSelectedCards(event)}
                                 >
                                     FAZER DOWNLOADS SELECIONADOS
                                 </button>

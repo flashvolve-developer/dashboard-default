@@ -7,6 +7,20 @@ export default function customizationsCard({ customization }) {
   const [hidden, setHidden] = useState(true);
   const { selectedCards, setSelectedCards } = useContext(AppContext);
 
+  function toggleSelectedCard(id) {
+    console.log(selectedCards);
+
+    if (selectedCards.includes(id)) {
+      const filtered = selectedCards.filter((value) => value !== id);
+      setSelectedCards(filtered);
+    } else {
+      const arraySelected = selectedCards.length === 0 ? [] : selectedCards;
+
+      arraySelected.push(id);
+      setSelectedCards(arraySelected);
+    }
+  }
+
   const download = (e, url) => {
     e.preventDefault();
 
@@ -63,7 +77,7 @@ export default function customizationsCard({ customization }) {
                   <input
                     type="checkbox"
                     id={customization.id}
-                    onChange={() => setSelectedCards(selectedCards.push(customization.id))}
+                    onChange={() => toggleSelectedCard(customization.id)}
                   />
                   selecionar
                 </label>
@@ -114,7 +128,7 @@ export default function customizationsCard({ customization }) {
                   <input
                     type="checkbox"
                     id={customization.id}
-                    onChange={() => setSelectedCards(selectedCards.push(customization.id))}
+                    onChange={() => toggleSelectedCard(customization.id)}
                   />
                   selecionar
                 </label>
@@ -126,7 +140,7 @@ export default function customizationsCard({ customization }) {
                     download
                     onClick={(e) => download(e, customization.cloudinary)}
                   >
-                    <FiDownload/>
+                    <FiDownload />
                   </div>
                 </label>
               </div>
