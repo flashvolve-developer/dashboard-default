@@ -1,5 +1,6 @@
 import "../App.css";
-import { FiDownload } from 'react-icons/fi'
+import { FiDownload } from 'react-icons/fi';
+// import { HiEye, HiEyeOff } from 'react-icons/hi';
 import React, { useState, useContext } from "react";
 import AppContext from '../context/AppContext';
 
@@ -61,6 +62,9 @@ export default function customizationsCard({ customization }) {
                     <span className="material-symbols-outlined">
                       visibility
                     </span>
+                    // <HiEye />
+                    // :
+                    // <HiEyeOff />
                 }
               </button>
               <span hidden={hidden}>
@@ -110,6 +114,9 @@ export default function customizationsCard({ customization }) {
                     <span className="material-symbols-outlined">
                       visibility
                     </span>
+                    // <HiEye />
+                    // :
+                    // <HiEyeOff />
                 }
               </button>
               <span hidden={hidden}>

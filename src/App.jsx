@@ -8,6 +8,7 @@ import CustomizationsCard from './components/customizationsCard';
 
 import InfiniteScroll from 'react-infinite-scroller';
 import AppContext from './context/AppContext';
+import zipfiles from './functions/zipfiles';
 
 function App() {
     window.onload = function () {
@@ -209,8 +210,9 @@ function App() {
                 });
         };
 
-
         const customizations = await getCustoByIds(selectedCards);
+
+        // zipfiles(customizations);
 
         customizations.forEach(element => {
             download(element.id, element.cloudinary)
@@ -309,8 +311,7 @@ function App() {
                                         className="input-"
                                         type="date"
                                         onChange={(event) =>
-                                            setFinalDate(event.target.value)
-                                        }
+                                            setFinalDate(event.target.value)}
                                     />
                                 </div>
                                 <button type="submit">
@@ -338,13 +339,13 @@ function App() {
                             </p>
                         </div>
                         <div className="input-box-bottom">
-                            <select name="" id="" className="select-dropbox">
+                            {/* <select name="" id="" className="select-dropbox">
                                 <option value="">ORGANIZAR POR</option>
                                 <option value="">opção 1</option>
                                 <option value="">opção 2</option>
                                 <option value="">opção 3</option>
                                 <option value="">opção 4</option>
-                            </select>
+                            </select> */}
                             <button
                                 disabled={(selectedCards.length === 0)}
                                 onClick={(event) => downloadSelectedCards(event)}
