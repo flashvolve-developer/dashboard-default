@@ -40,8 +40,7 @@ function App() {
     const [counterFilter, setCounterFilter] = useState('');
 
     async function getAllCustomizationsCount() {
-        const countCustomizations = (await getCustomizations(company, 1))
-            .itemsTotal;
+        const countCustomizations = (await getCustomizations(company, 1)).itemsTotal;
         const countClients = (await getUsers(company)).quantidade;
         // const currentCount = await getCountStickers();
 
@@ -190,33 +189,9 @@ function App() {
     async function downloadSelectedCards(e) {
         e.preventDefault();
 
-        const download = (id, url) => {
-            fetch(url, {
-                method: "GET",
-                headers: {}
-            })
-                .then(response => {
-                    response.arrayBuffer().then(function (buffer) {
-                        const Url = window.URL.createObjectURL(new Blob([buffer]));
-                        const link = document.createElement("a");
-                        link.href = Url;
-                        link.setAttribute("download", (`image${id}.png`));
-                        document.body.appendChild(link);
-                        link.click();
-                    });
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        };
-
         const customizations = await getCustoByIds(selectedCards);
-
-        // zipfiles(customizations);
-
-        customizations.forEach(element => {
-            download(element.id, element.cloudinary)
-        });
+        
+        zipfiles(customizations, path);
     }
 
     useEffect(() => {

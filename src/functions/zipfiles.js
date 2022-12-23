@@ -1,62 +1,30 @@
-// import AdmZip from "adm-zip";
-// import multer, { diskStorage } from 'multer';
-// import * as fs from 'fs';
-// const path = require('path');
-// const zip = new AdmZip();
+const JSZip = require('jszip');
+import { saveAs } from 'file-saver';
 
-// const dir = '../assets';
-// const subDirectory = '../assets/uploads';
+const getBase64 = async (url) => {
+    const blobImage = await fetch(url).then((response) => response.blob());
 
-// if (!existsSync(dir)) {
-//     fs.mkdirSync(dir)
+    return new Promise(async (resolve) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(blobImage);
+        reader.onload = () => {
+            resolve(reader.result);
+        };
+    });
+}
 
-//     fs.mkdirSync(subDirectory);
-// }
+export default async function zipfiles(customizations, path) {
+    const zip = new JSZip();
 
-// const storage = diskStorage({
-//     destination: function (cb) {
-//         cb(null, '../assets/uploads')
-//     },
-//     filename: function (file, cb) {
-//         cb(null,
-//             file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-//         );
-//     },
-// });
+    for (let i = 0; i < customizations.length; i++) {
+        const imgData = await getBase64(customizations[i].cloudinary);
+        const img = zip.folder("images");
 
-// const maxSize = 10 * 1024 * 1024;
+        img.file(`${customizations[i].id}-${path}.png`, imgData.split(',')[1], { base64: true });
+    }
 
-// const compressfilesupload = multer({ storage: storage, limits: { fileSize: maxSize } });
+    zip.generateAsync({ type: "blob" }).then(function (content) {
+        saveAs(content, `${Date.now()}-${path}.zip`);
+    });
+}
 
-// function main(cards) {
-//     compressfilesupload.array('file', 100);
-
-//     if (cards) {
-//         cards.forEach(file => {
-//             console.log(file.path);
-//             zip.addLocalFile(file.path);
-//         });
-
-//         const outputPath = Date.now() + 'output.zip';
-
-//         fs.writeFileSync(outputPath, zip.toBuffer());
-//     }
-// }
-
-// export default main();
-
-
-
-// const JSZip = require('jszip');
-
-// const zip = new JSZip();
-
-// zip.file("Hello.txt", "Hello World\n");
-
-// const img = zip.folder("images");
-// img.file("smile.gif", imgData, {base64: true});
-
-// zip.generateAsync({type:"blob"}).then(function(content) {
-//     // see FileSaver.js
-//     saveAs(content, "example.zip");
-// });
