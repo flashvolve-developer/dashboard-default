@@ -87,15 +87,14 @@ export default function customizationsCard({ customization }) {
                 </label>
               </div>
               <div className="btn-download">
-                {/* <button id="btn-image-download">-V-</button> */}
-                <label htmlFor="btn-image-download">
-                  <button
+              <label htmlFor="btn-image-download">
+                  <div className="button"
                     id="url-btn"
                     download
                     onClick={(e) => download(e, customization.cloudinary)}
                   >
-                    download
-                  </button>
+                    <FiDownload />
+                  </div>
                 </label>
               </div>
             </div>

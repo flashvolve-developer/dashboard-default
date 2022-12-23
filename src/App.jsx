@@ -153,6 +153,8 @@ function App() {
     async function searchByPhoneNumber(e) {
         e.preventDefault();
 
+        setPhoneNumber(e.target.value);
+
         setTimeout(async () => {
             setAllCustomizations([]);
             const response = (
@@ -190,7 +192,7 @@ function App() {
         e.preventDefault();
 
         const customizations = await getCustoByIds(selectedCards);
-        
+
         zipfiles(customizations, path);
     }
 
@@ -238,6 +240,9 @@ function App() {
                                         target && (await handleSetFilter(target.value))
                                     }
                                 >
+                                    <option key="0">
+                                        Todas as personalizações
+                                    </option>
                                     {artNames.map((art, idx) => (
                                         <option key={idx}>
                                             {art.personalizacao_Nome_da_arte}
@@ -247,24 +252,22 @@ function App() {
                             </div>
                             <form
                                 className="Search"
-                                onSubmit={(event) => searchByPhoneNumber(event)}
+                                // onSubmit={(event) => searchByPhoneNumber(event)}
                             >
                                 <input
                                     className="input-search"
                                     placeholder="Buscar por número..."
                                     type="search"
-                                    onChange={(event) =>
-                                        setPhoneNumber(event.target.value)
-                                    }
+                                    onChange={(event) => searchByPhoneNumber(event)}
                                 />
-                                <button type="submit">
+                                {/* <button type="submit">
                                     <img
                                         src="https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"
                                         alt="pesquisar"
                                         width={20}
                                         height={20}
                                     />
-                                </button>
+                                </button> */}
                             </form>
                             <form
                                 className="Search"
