@@ -80,6 +80,9 @@ function App() {
             setTimeout(async () => {
                 await getAllCustomizationsCount();
                 await fetchCustomizations();
+
+                setInitialDate('');
+                setFinalDate('');
             }, 1500);
         } else {
 
@@ -279,14 +282,6 @@ function App() {
                                     type="search"
                                     onChange={(event) => setPhoneNumber(event.target.value)}
                                 />
-                                {/* <button type="submit">
-                                    <img
-                                        src="https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"
-                                        alt="pesquisar"
-                                        width={20}
-                                        height={20}
-                                    />
-                                </button> */}
                             </form>
                             <form
                                 className="Search"
@@ -297,6 +292,7 @@ function App() {
                                         className="input-"
                                         type="date"
                                         onChange={(event) => { setInitialDate(event.target.value) }}
+                                        value={initialDate}
                                     />
                                 </div>
                                 <div>
@@ -305,16 +301,9 @@ function App() {
                                         className="input-"
                                         type="date"
                                         onChange={(event) => setFinalDate(event.target.value)}
+                                        value={finalDate}
                                     />
                                 </div>
-                                {/* <button type="submit">
-                                    <img
-                                        src="https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"
-                                        alt="pesquisar"
-                                        width={20}
-                                        height={20}
-                                    />
-                                </button> */}
                             </form>
                         </div>
                         <div className="headerPage-Info">
