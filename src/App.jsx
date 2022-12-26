@@ -17,7 +17,7 @@ function App() {
         }
     }
 
-    const { selectedCards, setSelectedCards } = useContext(AppContext);
+    const { selectedCards } = useContext(AppContext);
 
     const [path] = useState(window.location.pathname.replace("/", "").toLocaleUpperCase());
     const [company, setCompany] = useState(path);
@@ -47,7 +47,7 @@ function App() {
         // setCurrentCustomizationCount(currentCount.toLocaleString('pt-BR'));
         setClientsCount(countClients.toLocaleString('pt-BR'));
         setAllCustomizationsCount(countCustomizations.toLocaleString('pt-BR'));
-        setAverageClientsCount((countCustomizations / countClients).toFixed(2));
+        setAverageClientsCount(((countCustomizations / countClients).toFixed(2)).toLocaleString('pt-BR'));
     }
 
     async function fetchArtNames() {
@@ -76,73 +76,84 @@ function App() {
     async function handleSetFilter(filter) {
         setLoading(true);
 
-        setTimeout(async () => {
-            setAllCustomizations([]);
-            const customizations = (await getCustomizations(company, 1, filter)).items;
-            const countCustomizations = (await getCustomizations(company, 1, filter)).itemsTotal;
-            setAllCustomizations(customizations);
-            setAllCustomizationsCount(countCustomizations.toLocaleString('pt-BR'));
-            if (customizations.length === countCustomizations) {
-                setHasMore(false);
-            }
-            setAverageClientsCount((countCustomizations / clientsCount).toFixed(2));
-        }, 1500);
+        if (filter === 'Todas as personalizações') {
+            setTimeout(async () => {
+                await getAllCustomizationsCount();
+                await fetchCustomizations();
+            }, 1500);
+        } else {
+
+            setTimeout(async () => {
+                setAllCustomizations([]);
+                const countClients = (await getUsers(company)).quantidade;
+                const customizations = (await getCustomizations(company, 1, filter)).items;
+                const countCustomizations = (await getCustomizations(company, 1, filter)).itemsTotal;
+
+                setAllCustomizations(customizations);
+                setClientsCount(countClients.toLocaleString('pt-BR'));
+                setAllCustomizationsCount(countCustomizations.toLocaleString('pt-BR'));
+                setAllCustomizationsCount(countCustomizations.toLocaleString('pt-BR'));
+                setAverageClientsCount(((countCustomizations / countClients).toFixed(2)).toLocaleString('pt-BR'));
+
+                if (customizations.length === countCustomizations) {
+                    setHasMore(false);
+                }
+                setAverageClientsCount((countCustomizations / clientsCount).toFixed(2));
+            }, 1500);
+        }
 
         setLoading(false);
     }
 
-    async function searchBySelectedDate(e) {
-        e.preventDefault();
+    async function searchBySelectedDate() {
+        if (initialDate && finalDate) {
+            function formatDate(date, time) {
+                const dateFormat = new Date();
+                const dateInput = date.split('-');
+                const timeH = time == 'end' ? 23 : 0;
+                const timeM = time == 'end' ? 59 : 0;
 
-        function formatDate(date, time) {
-            const dateFormat = new Date();
-            const dateInput = date.split('-');
-            const timeH = time == 'end' ? 23 : 0;
-            const timeM = time == 'end' ? 59 : 0;
+                dateFormat.setDate(dateInput[2]);
+                dateFormat.setMonth(Number(dateInput[1]) - 1);
+                dateFormat.setYear(dateInput[0]);
+                dateFormat.setHours(timeH);
+                dateFormat.setMinutes(timeM);
+                dateFormat.setSeconds(timeM);
+                dateFormat.setMilliseconds(timeM)
 
-            dateFormat.setDate(dateInput[2]);
-            dateFormat.setMonth(Number(dateInput[1]) - 1);
-            dateFormat.setYear(dateInput[0]);
-            dateFormat.setHours(timeH);
-            dateFormat.setMinutes(timeM);
-            dateFormat.setSeconds(timeM);
-            dateFormat.setMilliseconds(timeM)
+                return dateFormat.getTime();
+            }
 
-            return dateFormat.getTime();
-        }
+            const initial = formatDate(initialDate, 'start');
+            const final = formatDate(finalDate, 'end');
 
-        const initial = formatDate(initialDate, 'start');
-        const final = formatDate(finalDate, 'end');
+            const countClientsByDate = (
+                await getUsers(company, initial, final)
+            ).quantidade.toLocaleString('pt-BR');
+            setClientsCount(countClientsByDate);
 
-        console.log(initial);
-        console.log(final);
+            const countCustomizationsByDate = (
+                await getCustomizations(company, 1, 0, initial, final)
+            ).itemsTotal;
 
-        const countClientsByDate = (
-            await getUsers(company, initial, final)
-        ).quantidade.toLocaleString('pt-BR');
-        setClientsCount(countClientsByDate);
+            setAllCustomizationsCount(countCustomizationsByDate);
 
-        const countCustomizationsByDate = (
-            await getCustomizations(company, 1, 0, initial, final)
-        ).itemsTotal;
+            setAverageClientsCount(
+                (countCustomizationsByDate / countClientsByDate).toFixed(2)
+            );
 
-        setAllCustomizationsCount(countCustomizationsByDate);
+            const response = await getCustomizations(company, 1, 0, initial, final);
+            const customizations = response.items;
+            const currentCount = response.itemsTotal;
 
-        setAverageClientsCount(
-            (countCustomizationsByDate / countClientsByDate).toFixed(2)
-        );
+            setTimeout(() => {
+                setAllCustomizations([]);
+                setAllCustomizations(customizations);
+            }, 1500);
 
-        const response = await getCustomizations(company, 1, 0, initial, final);
-        const customizations = response.items;
-        const currentCount = response.itemsTotal;
-
-        setTimeout(() => {
-            setAllCustomizations([]);
-            setAllCustomizations(customizations);
-        }, 1500);
-
-        if (customizations.length === currentCount) {
-            setHasMore(false);
+            if (customizations.length === currentCount) {
+                setHasMore(false);
+            }
         }
 
         // setCurrentCustomizationCount(currentCount);
@@ -150,17 +161,18 @@ function App() {
         setLastNumberOfPage(0);
     }
 
-    async function searchByPhoneNumber(e) {
-        e.preventDefault();
-
-        setPhoneNumber(e.target.value);
-
+    async function searchByPhoneNumber() {
         setTimeout(async () => {
             setAllCustomizations([]);
             const response = (
-                await getCustomizations(company, 1, '', '', phoneNumber)
-            ).items;
-            setAllCustomizations(response);
+                await getCustomizations(company, 1, 0, 0, 0, phoneNumber)
+            );
+            const countClients = (await getUsers(company, '', '', phoneNumber)).quantidade;
+
+            setAllCustomizations(response.items);
+            setAllCustomizationsCount((response.itemsTotal).toLocaleString('pt-BR'));
+            setClientsCount(countClients.toLocaleString('pt-BR'));
+            setAverageClientsCount((((response.itemsTotal) / countClients).toFixed(2)).toLocaleString('pt-BR'));
         }, 1500);
     }
 
@@ -217,6 +229,14 @@ function App() {
         // react-hooks/exhaustive-deps
     }, []);
 
+    useEffect(() => {
+        searchBySelectedDate();
+    }, [finalDate, initialDate]);
+
+    useEffect(() => {
+        searchByPhoneNumber();
+    }, [phoneNumber]);
+
     return (
         <div className="App">
             {!company ?
@@ -252,13 +272,12 @@ function App() {
                             </div>
                             <form
                                 className="Search"
-                                // onSubmit={(event) => searchByPhoneNumber(event)}
                             >
                                 <input
                                     className="input-search"
                                     placeholder="Buscar por número..."
                                     type="search"
-                                    onChange={(event) => searchByPhoneNumber(event)}
+                                    onChange={(event) => setPhoneNumber(event.target.value)}
                                 />
                                 {/* <button type="submit">
                                     <img
@@ -271,16 +290,13 @@ function App() {
                             </form>
                             <form
                                 className="Search"
-                                onSubmit={(event) => searchBySelectedDate(event)}
                             >
                                 <div>
                                     <span>De:&nbsp;</span>
                                     <input
                                         className="input-"
                                         type="date"
-                                        onChange={(event) =>
-                                            setInitialDate(event.target.value)
-                                        }
+                                        onChange={(event) => { setInitialDate(event.target.value) }}
                                     />
                                 </div>
                                 <div>
@@ -288,18 +304,17 @@ function App() {
                                     <input
                                         className="input-"
                                         type="date"
-                                        onChange={(event) =>
-                                            setFinalDate(event.target.value)}
+                                        onChange={(event) => setFinalDate(event.target.value)}
                                     />
                                 </div>
-                                <button type="submit">
+                                {/* <button type="submit">
                                     <img
                                         src="https://www.nicepng.com/png/detail/853-8539483_png-file-search-button-icon-png.png"
                                         alt="pesquisar"
                                         width={20}
                                         height={20}
                                     />
-                                </button>
+                                </button> */}
                             </form>
                         </div>
                         <div className="headerPage-Info">
@@ -347,7 +362,6 @@ function App() {
                         ) : (
                             <InfiniteScroll
                                 className="Cards"
-                                // pageStart={1}
                                 loadMore={fetchCustomizations}
                                 hasMore={hasMore}
                                 threshold={350}

@@ -1,6 +1,5 @@
 import "../App.css";
 import { FiDownload } from 'react-icons/fi';
-// import { HiEye, HiEyeOff } from 'react-icons/hi';
 import React, { useState, useContext } from "react";
 import AppContext from '../context/AppContext';
 
@@ -93,7 +92,7 @@ export default function customizationsCard({ customization }) {
                     download
                     onClick={(e) => download(e, customization.cloudinary)}
                   >
-                    <FiDownload />
+                    {/* <FiDownload /> */}
                   </div>
                 </label>
               </div>

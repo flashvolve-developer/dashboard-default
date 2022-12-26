@@ -1,4 +1,4 @@
-export default async function getCustomizations(company) {
+export default async function getArtNames(company) {
     const URL = `https://api.flashvolve.io/api:GBD2ICmZ/personalizacao_nome_artes?empresa=${company}`;
     const request = await fetch(URL, {
         method: 'GET',
