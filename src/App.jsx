@@ -9,6 +9,9 @@ import CustomizationsCard from './components/customizationsCard';
 import InfiniteScroll from 'react-infinite-scroller';
 import AppContext from './context/AppContext';
 import zipfiles from './functions/zipfiles';
+// import io from 'socket.io-client';
+
+// const socket = io();
 
 function App() {
     window.onload = function () {
@@ -16,6 +19,9 @@ function App() {
             return false
         }
     }
+
+    // const [isConnected, setIsConnected] = useState(socket.connected);
+    // const [lastPong, setLastPong] = useState(null);
 
     const { selectedCards } = useContext(AppContext);
 
@@ -130,6 +136,8 @@ function App() {
             const initial = formatDate(initialDate, 'start');
             const final = formatDate(finalDate, 'end');
 
+            // need to configurate with filter data
+
             const countClientsByDate = (
                 await getUsers(company, initial, final)
             ).quantidade.toLocaleString('pt-BR');
@@ -239,6 +247,12 @@ function App() {
     useEffect(() => {
         searchByPhoneNumber();
     }, [phoneNumber]);
+
+    // useEffect(() => {
+    //     socket.on('connect', () => {
+    //       setIsConnected(true);
+    //     });
+    // }, []);
 
     return (
         <div className="App">
