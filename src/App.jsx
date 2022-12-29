@@ -9,9 +9,11 @@ import CustomizationsCard from './components/customizationsCard';
 import InfiniteScroll from 'react-infinite-scroller';
 import AppContext from './context/AppContext';
 import zipfiles from './functions/zipfiles';
-// import io from 'socket.io-client';
 
-// const socket = io();
+/* Importing the socket.io-client library and creating a socket connection. */
+import io from 'socket.io-client';
+
+const socket = io.connect("https://backendsocketio.glitch.me");
 
 function App() {
     window.onload = function () {
@@ -20,7 +22,7 @@ function App() {
         }
     }
 
-    // const [isConnected, setIsConnected] = useState(socket.connected);
+    const [isConnected, setIsConnected] = useState(socket.connected);
     // const [lastPong, setLastPong] = useState(null);
 
     const { selectedCards } = useContext(AppContext);
@@ -44,6 +46,8 @@ function App() {
     const [finalDate, setFinalDate] = useState('');
     //
     const [counterFilter, setCounterFilter] = useState('');
+    const [filter, setFilter] = useState('');
+
 
     async function getAllCustomizationsCount() {
         const countCustomizations = (await getCustomizations(company, 1)).itemsTotal;
@@ -80,6 +84,7 @@ function App() {
     }
 
     async function handleSetFilter(filter) {
+        setFilter(filter);
         setLoading(true);
 
         if (filter === 'Todas as personalizações') {
@@ -235,6 +240,7 @@ function App() {
         getAllCustomizationsCount();
         setTimeout(() => {
             fetchCustomizations();
+            getAllCustomizationsCount();
         }, 2000);
         // eslint-disable-next-line
         // react-hooks/exhaustive-deps
@@ -248,11 +254,15 @@ function App() {
         searchByPhoneNumber();
     }, [phoneNumber]);
 
-    // useEffect(() => {
-    //     socket.on('connect', () => {
-    //       setIsConnected(true);
-    //     });
-    // }, []);
+    useEffect(() => {
+        socket.on('Opa', async () => {
+            setIsConnected(true);
+            if (!filter || !initialDate || !finalDate) {
+                await fetchCustomizations();
+                console.log("Atualizou");
+            }
+        });
+    }, [socket]);
 
     return (
         <div className="App">
