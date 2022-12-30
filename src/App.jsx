@@ -148,9 +148,9 @@ function App() {
             ).quantidade.toLocaleString('pt-BR');
             setClientsCount(countClientsByDate);
 
-            const countCustomizationsByDate = (
+            const countCustomizationsByDate = ((
                 await getCustomizations(company, 1, 0, initial, final)
-            ).itemsTotal;
+            ).itemsTotal).toLocaleString('pt-BR');
 
             setAllCustomizationsCount(countCustomizationsByDate);
 
