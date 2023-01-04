@@ -1,6 +1,7 @@
 import './App.css';
 import React from 'react';
 import { Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import ChartDashboard from './pages/chartDashboard';
 import App from './App';
 
 function Routes() {
@@ -15,13 +16,18 @@ function Routes() {
         element={<App />}
       /> */}
       <Switch>
-        <Route path="/" children={<App />} />
-        <Route path="/:id" children={<App />} />
+        <Route exact path="/" children={<App />} />
+        <Route path="/cbmm" children={<App />} />
+        <Route path="/dasa" children={<App />} />
+        <Route path="/fgv" children={<App />} />
+        <Route path="/gpa" children={<App />} />
+        <Route path="/helbor" children={<App />} />
+        <Route path="/veracel" children={<App />} />
+        <Route path="/chartDashboard" children={<ChartDashboard />} />
       </Switch>
     </Router>
   );
 }
-
 
 export default Routes;
 

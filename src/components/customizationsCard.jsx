@@ -61,9 +61,6 @@ export default function customizationsCard({ customization }) {
                     <span className="material-symbols-outlined">
                       visibility
                     </span>
-                    // <HiEye />
-                    // :
-                    // <HiEyeOff />
                 }
               </button>
               <span hidden={hidden}>
@@ -85,17 +82,17 @@ export default function customizationsCard({ customization }) {
                   selecionar
                 </label>
               </div>
-              <div className="btn-download">
+              {/* <div className="btn-download">
               <label htmlFor="btn-image-download">
                   <div className="button"
                     id="url-btn"
                     download
                     onClick={(e) => download(e, customization.cloudinary)}
                   >
-                    {/* <FiDownload /> */}
+                    <FiDownload />
                   </div>
                 </label>
-              </div>
+              </div> */}
             </div>
           </div>
         ) : (
@@ -112,9 +109,6 @@ export default function customizationsCard({ customization }) {
                     <span className="material-symbols-outlined">
                       visibility
                     </span>
-                    // <HiEye />
-                    // :
-                    // <HiEyeOff />
                 }
               </button>
               <span hidden={hidden}>
