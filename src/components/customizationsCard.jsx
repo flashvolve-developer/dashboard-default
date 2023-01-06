@@ -5,6 +5,7 @@ import AppContext from '../context/AppContext';
 
 export default function customizationsCard({ customization }) {
   const [hidden, setHidden] = useState(true);
+  const [params] = useState(new URLSearchParams(location.search));
   const { selectedCards, setSelectedCards } = useContext(AppContext);
 
   function toggleSelectedCard(id) {
@@ -49,24 +50,27 @@ export default function customizationsCard({ customization }) {
         customization.cloudinary.slice(customization.cloudinary.length - 3)
           === "mp4" ? (
           <div>
-            <div className="DataVisible">
-              <button
-                onClick={() => setHidden(!hidden)}
-              >
-                {
-                  hidden ?
-                    <span className="material-symbols-outlined">
-                      visibility_off
-                    </span> :
-                    <span className="material-symbols-outlined">
-                      visibility
-                    </span>
-                }
-              </button>
-              <span hidden={hidden}>
-                id: {customization.id}/  whatsapp: {customization.whatsapp}
-              </span>
-            </div>
+            {
+              params.get("devs") === 'true' &&
+              <div className="DataVisible">
+                <button
+                  onClick={() => setHidden(!hidden)}
+                >
+                  {
+                    hidden ?
+                      <span className="material-symbols-outlined">
+                        visibility_off
+                      </span> :
+                      <span className="material-symbols-outlined">
+                        visibility
+                      </span>
+                  }
+                </button>
+                <span hidden={hidden}>
+                  id: {customization.id}/  whatsapp: {customization.whatsapp}
+                </span>
+              </div>
+            }
             <video alt={customization.whatsapp} className="Card" controls>
               <source src={customization.cloudinary} type="video/mp4">
               </source>
@@ -97,24 +101,27 @@ export default function customizationsCard({ customization }) {
           </div>
         ) : (
           <div>
-            <div className="DataVisible">
-              <button className='button'
-                onClick={() => setHidden(!hidden)}
-              >
-                {
-                  hidden ?
-                    <span className="material-symbols-outlined">
-                      visibility_off
-                    </span> :
-                    <span className="material-symbols-outlined">
-                      visibility
-                    </span>
-                }
-              </button>
-              <span hidden={hidden}>
-                id:{customization.id}/   whatsapp:{customization.whatsapp}
-              </span>
-            </div>
+            {
+              params.get("devs") === 'true' &&
+              <div className="DataVisible">
+                <button className='button'
+                  onClick={() => setHidden(!hidden)}
+                >
+                  {
+                    hidden ?
+                      <span className="material-symbols-outlined">
+                        visibility_off
+                      </span> :
+                      <span className="material-symbols-outlined">
+                        visibility
+                      </span>
+                  }
+                </button>
+                <span hidden={hidden}>
+                  id:{customization.id}/   whatsapp:{customization.whatsapp}
+                </span>
+              </div>
+            }
             <img
               className="Card"
               data-testid={`customization__img-card-${customization.id}`}
