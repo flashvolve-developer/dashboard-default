@@ -1,4 +1,8 @@
-async function getAllCustomizationsCount() {
+import getCustomizations from './services/getCustomizations';
+import getUsers from './services/getUsers';
+import getArtNames from './services/getArtNames';
+
+async function getAllCustomizationsCount(company) {
     const countCustomizations = (await getCustomizations(company, 1)).itemsTotal;
     const countClients = (await getUsers(company)).quantidade;
     // const currentCount = await getCountStickers();
@@ -9,12 +13,12 @@ async function getAllCustomizationsCount() {
     setAverageClientsCount(((countCustomizations / countClients).toFixed(2)).toLocaleString('pt-BR'));
 }
 
-async function fetchArtNames() {
+async function fetchArtNames(company, setArtNames) {
     const artNames = await getArtNames(company);
     setArtNames(artNames);
 }
 
-async function fetchCustomizations() {
+async function fetchCustomizations(company, allCustomizations, allCustomizationsCount) {
     const newNumberOfPage = lastNumberOfPage + 1;
 
     const response = (await getCustomizations(company, newNumberOfPage)).items;
@@ -32,7 +36,7 @@ async function fetchCustomizations() {
     }
 }
 
-async function handleSetFilter(filter) {
+async function handleSetFilter(company, filter) {
     setFilter(filter);
     setLoading(true);
 
@@ -68,7 +72,7 @@ async function handleSetFilter(filter) {
     setLoading(false);
 }
 
-async function searchBySelectedDate() {
+async function searchBySelectedDate(company, initialDate, finalDate) {
     if (initialDate && finalDate) {
         function formatDate(date, time) {
             const dateFormat = new Date();
@@ -126,7 +130,7 @@ async function searchBySelectedDate() {
     setLastNumberOfPage(0);
 }
 
-async function searchByPhoneNumber() {
+async function searchByPhoneNumber(company, phoneNumber) {
     setTimeout(async () => {
         setAllCustomizations([]);
         const response = (
